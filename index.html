@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Mappa Interattiva - Finale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .mappa-container {
+      position: relative;
+      width: 100%;
+      max-width: 1461px;
+      margin: auto;
+    }
+    .mappa-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .punto {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      font-size: 14px;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding: 20px;
+      background: white;
+      border: 2px solid #333;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+    .close {
+      float: right;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="mappa-container">
+  <img src="mappa_pieve_del_grappa.png" width="1461" height="2047" alt="Mappa Pieve del Grappa">
+<div class="punto" style="left: 70.18%; top: 71.5%;" onclick="showPopup(1)">1</div>
+<div class="punto" style="left: 69.1%; top: 72.7%;" onclick="showPopup(2)">2</div>
+<div class="punto" style="left: 66.67%; top: 75.81%;" onclick="showPopup(3)">3</div>
+<div class="punto" style="left: 55.72%; top: 56.05%;" onclick="showPopup(4)">4</div>
+<div class="punto" style="left: 71.0%; top: 81.56%;" onclick="showPopup(5)">5</div>
+<div class="punto" style="left: 54.54%; top: 78.96%;" onclick="showPopup(6)">6</div>
+<div class="punto" style="left: 66.81%; top: 74.18%;" onclick="showPopup(7)">7</div>
+<div class="punto" style="left: 71.21%; top: 69.38%;" onclick="showPopup(8)">8</div>
+<div class="punto" style="left: 35.55%; top: 36.97%;" onclick="showPopup(9)">9</div>
+<div class="punto" style="left: 36.59%; top: 36.72%;" onclick="showPopup(10)">10</div>
+<div class="punto" style="left: 59.46%; top: 40.28%;" onclick="showPopup(11)">11</div>
+<div class="punto" style="left: 73.91%; top: 58.82%;" onclick="showPopup(12)">12</div>
+<div class="punto" style="left: 77.65%; top: 64.61%;" onclick="showPopup(13)">13</div>
+<div class="punto" style="left: 47.0%; top: 66.0%;" onclick="showPopup(14)">14</div>
+<div class="punto" style="left: 77.58%; top: 71.29%;" onclick="showPopup(15)">15</div>
+<div class="punto" style="left: 75.29%; top: 69.33%;" onclick="showPopup(16)">16</div>
+<div class="punto" style="left: 80.04%; top: 74.68%;" onclick="showPopup(17)">17</div>
+<div class="punto" style="left: 79.24%; top: 65.3%;" onclick="showPopup(18)">18</div>
+<div class="punto" style="left: 57.52%; top: 56.59%;" onclick="showPopup(19)">19</div>
+<div class="punto" style="left: 69.44%; top: 58.1%;" onclick="showPopup(20)">20</div>
+<div class="punto" style="left: 83.99%; top: 68.69%;" onclick="showPopup(21)">21</div>
+<div class="punto" style="left: 71.0%; top: 18.0%;" onclick="showPopup(22)">22</div>
+<div class="punto" style="left: 73.6%; top: 57.21%;" onclick="showPopup(23)">23</div>
+<div class="punto" style="left: 62.27%; top: 37.91%;" onclick="showPopup(24)">24</div>
+<div class="punto" style="left: 71.83%; top: 48.45%;" onclick="showPopup(25)">25</div>
+<div class="punto" style="left: 50.52%; top: 50.48%;" onclick="showPopup(26)">26</div>
+<div class="punto" style="left: 50.0%; top: 37.34%;" onclick="showPopup(27)">27</div>
+</div>
+<div class='overlay' id='overlay' onclick='closePopup()'></div>
+
+<div class="popup" id="popup1">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 1</h3>
+  <p>Chiesa di San Pancrazio – Cimitero: Chiesa campestre romanica dell’XI secolo, prima parrocchiale crespanese.</p>
+</div>
+
+<div class="popup" id="popup2">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 2</h3>
+  <p>Chiesa di San Marco Vecchia: Resti dell'antica parrocchiale con facciata in pietra e campanile unito.</p>
+</div>
+
+<div class="popup" id="popup3">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 3</h3>
+  <p>Duomo di Crespano, Piazza San Marco e Campanile: Opera del Massari del ‘700, cuore della comunità.</p>
+</div>
+
+<div class="popup" id="popup4">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 4</h3>
+  <p>Santuario Madonna del Covolo: Santuario neoclassico progettato da Antonio Canova.</p>
+</div>
+
+<div class="popup" id="popup5">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 5</h3>
+  <p>Chiesa di San Paolo del Lastego: Chiesa romanica lungo il torrente, tra le più antiche del territorio.</p>
+</div>
+
+<div class="popup" id="popup6">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 6</h3>
+  <p>Villa Manfrotto Canal, resti Decauville, Contrada Gherla: Villa storica e testimonianze industriali lanifici.</p>
+</div>
+
+<div class="popup" id="popup7">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 7</h3>
+  <p>Palazzo Reale - Ca’ De Martini e Museo della Grande Guerra: Biblioteca e museo in edificio tardo settecentesco.</p>
+</div>
+
+<div class="popup" id="popup8">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 8</h3>
+  <p>Ponte sul Lastego: Imponente ponte ottocentesco progettato da Casarotti.</p>
+</div>
+
+<div class="popup" id="popup9">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 9</h3>
+  <p>Cima Grappa e Sacrario Militare: Monumento nazionale con ossario e sacrario.</p>
+</div>
+
+<div class="popup" id="popup10">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 10</h3>
+  <p>Galleria Vittorio Emanuele: Galleria militare risalente alla Grande Guerra.</p>
+</div>
+
+<div class="popup" id="popup11">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 11</h3>
+  <p>Valle e Sacello di San Liberale, Capitello: Luogo di pellegrinaggi con resti di trincee.</p>
+</div>
+
+<div class="popup" id="popup12">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 12</h3>
+  <p>Oratorio di Sant’Andrea: Chiesa storica documentata dal 1070, a navata unica.</p>
+</div>
+
+<div class="popup" id="popup13">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 13</h3>
+  <p>Chiesa Santissima Trinità e Campanile di Fietta: Parrocchiale settecentesca affrescata da Sebastiano Santi.</p>
+</div>
+
+<div class="popup" id="popup14">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 14</h3>
+  <p>Oratorio Madonna della Salute: Chiesa votiva ricostruita nel 1831.</p>
+</div>
+
+<div class="popup" id="popup15">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 15</h3>
+  <p>Madonna delle Grazie - Fusére: Oratorio del ‘600, fu parrocchiale dal 1719 al 1774.</p>
+</div>
+
+<div class="popup" id="popup16">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 16</h3>
+  <p>Villa Fietta: Storica villa signorile ampliata da Giorgio Massari.</p>
+</div>
+
+<div class="popup" id="popup17">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 17</h3>
+  <p>Chiesa Annunciazione Beata Vergine e Campanile di Paderno: Parrocchiale ricostruita dopo il terremoto del 1695.</p>
+</div>
+
+<div class="popup" id="popup18">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 18</h3>
+  <p>Piazzale Chiesa Santissima Trinità (Fietta): Ampia veduta pedemontana.</p>
+</div>
+
+<div class="popup" id="popup19">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 19</h3>
+  <p>Terrazzo del Santuario del Covolo: Panoramica sulla valle e i monti.</p>
+</div>
+
+<div class="popup" id="popup20">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 20</h3>
+  <p>Centro Vegetazionale Castegner dea Madoneta: Percorso botanico naturalistico.</p>
+</div>
+
+<div class="popup" id="popup21">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 21</h3>
+  <p>Le Motte: Collina panoramica lungo il sentiero sud.</p>
+</div>
+
+<div class="popup" id="popup22">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 22</h3>
+  <p>Oratorio di Sant’Andrea: Come punto 12, anche punto naturalistico.</p>
+</div>
+
+<div class="popup" id="popup23">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 23</h3>
+  <p>Cima della Mandria: Punto escursionistico e panoramico.</p>
+</div>
+
+<div class="popup" id="popup24">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 24</h3>
+  <p>Bus de Refos: Sorgente e grotta naturale in zona San Liberale.</p>
+</div>
+
+<div class="popup" id="popup25">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 25</h3>
+  <p>Località Martel: Zona boscosa e pascoli, escursioni medio-facili.</p>
+</div>
+
+<div class="popup" id="popup26">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 26</h3>
+  <p>Prato di Schiba: Spazio aperto e panoramico nella zona montana.</p>
+</div>
+
+<div class="popup" id="popup27">
+  <span class="close" onclick="closePopup()">&times;</span>
+  <h3>Punto 27</h3>
+  <p>Località Ardosa: Area naturale a sud-est del territorio.</p>
+</div>
+
+<script>
+  function showPopup(id) {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('popup' + id).style.display = 'block';
+  }
+  function closePopup() {
+    document.getElementById('overlay').style.display = 'none';
+    const popups = document.querySelectorAll('.popup');
+    popups.forEach(p => p.style.display = 'none');
+  }
+</script>
+</body>
+</html>
